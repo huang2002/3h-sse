@@ -1,0 +1,36 @@
+{
+  "name": "3h-sse",
+  "version": "0.1.0",
+  "description": "A simple lib for server-sent events in NodeJS.",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "node -e \"fs.existsSync('dist') && fs.rmSync('dist', { recursive: true })\"",
+    "build": "tsc",
+    "test": "node ./test/index.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huang2002/3h-sse.git"
+  },
+  "keywords": [
+    "sse",
+    "server",
+    "sent",
+    "event",
+    "source",
+    "3h"
+  ],
+  "author": "3h",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/huang2002/3h-sse/issues"
+  },
+  "homepage": "https://github.com/huang2002/3h-sse#readme",
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "3h-test": "^0.10.0",
+    "dts2md": "^0.4.4",
+    "typescript": "^5.2.2"
+  }
+}
