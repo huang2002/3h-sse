@@ -4,7 +4,7 @@
 
 ## Example
 
-Here's an example of an SSE server
+Here's an example SSE server
 which emits an event periodically
 and sends a ping message every 10 seconds.
 
