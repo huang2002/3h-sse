@@ -12,17 +12,17 @@ and sends a ping message every 10 seconds.
 const http = require('http');
 const SSE = require('3h-sse');
 
-const backendAdaptor = new SSE.NodeJSAdaptor();
+const backend = new SSE.NodeJSBackend();
 const sseController = new SSE.SSEController({
-    backendAdaptor,
+    backend,
     pingInterval: 10_000,
     pingText: ')',
 });
 
 const server = http.createServer((req, res) => {
-    backendAdaptor.addResponse(res);
+    backend.addResponse(res);
     res.once('close', () => {
-        backendAdaptor.responses.delete(res);
+        backend.responses.delete(res);
     });
 });
 
@@ -32,7 +32,7 @@ setInterval(() => {
 
 sseController.start();
 server.once('close', () => {
-    backendAdaptor.clear();
+    backend.clear();
     sseController.stop();
 });
 ```
