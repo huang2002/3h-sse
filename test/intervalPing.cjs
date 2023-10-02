@@ -21,6 +21,10 @@ module.exports = (ctx) => (
 
         const server = http.createServer((req, res) => {
             backend.addResponse(res);
+            setTimeout(() => {
+                backend.removeResponse(res);
+                res.end();
+            }, 240);
         });
         server.listen(PORT);
 
@@ -29,10 +33,6 @@ module.exports = (ctx) => (
         client.on('response', (res) => {
             res.on('data', (chunk) => {
                 clientData += chunk.toString();
-            });
-            res.once('end', () => {
-                ctx.assertStrictEqual(clientData, EXPECTED_DATA);
-                resolve();
             });
         });
         client.end();
@@ -50,10 +50,15 @@ module.exports = (ctx) => (
         }, 180);
 
         setTimeout(() => {
+
             sseController.stop();
             backend.clear();
             server.close();
-        }, 240);
+
+            ctx.assertStrictEqual(clientData, EXPECTED_DATA);
+            resolve();
+
+        }, 320);
 
         const EXPECTED_DATA = [
             ':60',

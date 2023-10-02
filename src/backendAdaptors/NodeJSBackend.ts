@@ -58,6 +58,13 @@ export class NodeJSBackend<ResponseType extends NodeJSResponseLike = NodeJSRespo
     }
     /** dts2md break */
     /**
+     * Remove a response.
+     */
+    removeResponse(response: ResponseType) {
+        this.responses.delete(response);
+    }
+    /** dts2md break */
+    /**
      * Initialize a single response.
      */
     initializeResponse(response: ResponseType) {
