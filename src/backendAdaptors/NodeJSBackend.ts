@@ -10,9 +10,9 @@ export interface NodeJSResponseLike {
 }
 /** dts2md break */
 /**
- * Type of options of {@link NodeJSAdaptor}.
+ * Type of options of {@link NodeJSBackend}.
  */
-export interface NodeJSAdaptorOptions<ResponseType extends NodeJSResponseLike> {
+export interface NodeJSBackendOptions<ResponseType extends NodeJSResponseLike> {
     /**
      * Response objects.
      * @default []
@@ -28,13 +28,13 @@ export interface NodeJSAdaptorOptions<ResponseType extends NodeJSResponseLike> {
 /**
  * Class of NodeJS response adaptors.
  */
-export class NodeJSAdaptor<ResponseType extends NodeJSResponseLike = NodeJSResponseLike>
+export class NodeJSBackend<ResponseType extends NodeJSResponseLike = NodeJSResponseLike>
     implements BackendAdaptor {
     /** dts2md break */
     /**
-     * Constructor of {@link NodeJSAdaptor}.
+     * Constructor of {@link NodeJSBackend}.
      */
-    constructor(options?: NodeJSAdaptorOptions<ResponseType>) {
+    constructor(options?: NodeJSBackendOptions<ResponseType>) {
         this.responses = new Set(options?.responses);
         this.headers = options?.headers ?? defaultHeaders;
     }

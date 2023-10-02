@@ -10,9 +10,9 @@ const PORT = 8888;
 module.exports = (ctx) => (
     new Promise((resolve) => {
 
-        const backendAdaptor = new SSE.NodeJSAdaptor();
+        const backend = new SSE.NodeJSBackend();
         const sseController = new SSE.SSEController({
-            backendAdaptor,
+            backend,
             pingInterval: 100,
             pingText: 'smart-ping',
         });
@@ -20,7 +20,7 @@ module.exports = (ctx) => (
         sseController.start();
 
         const server = http.createServer((req, res) => {
-            backendAdaptor.addResponse(res);
+            backend.addResponse(res);
         });
         server.listen(PORT);
 
@@ -51,7 +51,7 @@ module.exports = (ctx) => (
 
         setTimeout(() => {
             sseController.stop();
-            backendAdaptor.clear();
+            backend.clear();
             server.close();
         }, 280);
 

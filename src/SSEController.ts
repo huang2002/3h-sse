@@ -5,12 +5,16 @@ import { TimeoutAdaptor, defaultTimeoutAdaptor } from './timeoutAdaptor';
 /**
  * Type of options of {@link SSEController}.
  */
-export interface SSEControllerOptions<IntervalTimerId, TimeoutTimerId> {
+export interface SSEControllerOptions<
+    BackendType extends BackendAdaptor,
+    IntervalTimerId,
+    TimeoutTimerId,
+> {
     /**
      * Backend adaptor.
      * @default null
      */
-    backendAdaptor?: BackendAdaptor | null;
+    backend?: BackendType | null;
     /**
      * Text used in pinging.
      * @default defaultPingText
@@ -43,13 +47,23 @@ export interface SSEControllerOptions<IntervalTimerId, TimeoutTimerId> {
 /**
  * Server-sent event controller class.
  */
-export class SSEController<IntervalTimerId = any, TimeoutTimerId = any> {
+export class SSEController<
+    BackendType extends BackendAdaptor = BackendAdaptor,
+    IntervalTimerId = any,
+    TimeoutTimerId = any,
+> {
     /** dts2md break */
     /**
      * Constructor of {@link SSEController}.
      */
-    constructor(options?: SSEControllerOptions<IntervalTimerId, TimeoutTimerId>) {
-        this.backendAdaptor = options?.backendAdaptor ?? null;
+    constructor(
+        options?: SSEControllerOptions<
+            BackendType,
+            IntervalTimerId,
+            TimeoutTimerId
+        >,
+    ) {
+        this.backend = options?.backend ?? null;
         this.pingText = options?.pingText ?? defaultPingText;
         this.pingInterval = options?.pingInterval ?? defaultPingInterval;
         this.smartPing = options?.smartPing ?? true;
@@ -61,7 +75,7 @@ export class SSEController<IntervalTimerId = any, TimeoutTimerId = any> {
     /**
      * Backend adaptor.
      */
-    backendAdaptor: BackendAdaptor | null;
+    backend: BackendType | null;
     /** dts2md break */
     /**
      * Text used in pinging.
@@ -117,7 +131,7 @@ export class SSEController<IntervalTimerId = any, TimeoutTimerId = any> {
      * and throw an error if adaptor is not available.
      */
     assertAdaptorAvailability() {
-        const { backendAdaptor } = this;
+        const { backend: backendAdaptor } = this;
         if (!backendAdaptor) {
             throw new TypeError('backend adaptor not available');
         }
@@ -127,7 +141,7 @@ export class SSEController<IntervalTimerId = any, TimeoutTimerId = any> {
      * Initialize the controller.
      */
     initialize() {
-        const { backendAdaptor } = this;
+        const { backend: backendAdaptor } = this;
         this.assertAdaptorAvailability();
         backendAdaptor!.initialize();
     }
@@ -179,7 +193,7 @@ export class SSEController<IntervalTimerId = any, TimeoutTimerId = any> {
      * Send specific content as-is.
      */
     sendVerbatim(content: string) {
-        const { backendAdaptor } = this;
+        const { backend: backendAdaptor } = this;
         this.assertAdaptorAvailability();
         backendAdaptor!.send(content);
         if (this._isRunning && this.smartPing) {
@@ -192,7 +206,7 @@ export class SSEController<IntervalTimerId = any, TimeoutTimerId = any> {
      */
     sendEvent(eventName: string, data?: string) {
 
-        const { backendAdaptor } = this;
+        const { backend: backendAdaptor } = this;
         this.assertAdaptorAvailability();
 
         backendAdaptor!.send(`event: ${eventName}\n`);
