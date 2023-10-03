@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+- Fix type entry point.
+
 ## 0.3.0
 
 - Add `removeResponse` to `NodeJSBackend`.
