@@ -5,6 +5,9 @@
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prebuild": "node -e \"fs.existsSync('dist') && fs.rmSync('dist', { recursive: true })\"",
     "build": "tsc",
