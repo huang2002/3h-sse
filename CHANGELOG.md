@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+- Fix distribution file list.
+
 ## 0.3.1
 
 - Fix type entry point.
