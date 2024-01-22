@@ -2,14 +2,13 @@
 const http = require('http');
 const SSE = require('..');
 
-const PORT = 8888;
+const PORT = 8889;
 
 /**
  * @type {import('3h-test').TestCaseCallback}
  */
-module.exports = (ctx) => (
+module.exports = (ctx) =>
     new Promise((resolve) => {
-
         const backend = new SSE.NodeJSBackend();
         const sseController = new SSE.SSEController({
             backend,
@@ -50,14 +49,12 @@ module.exports = (ctx) => (
         }, 180);
 
         setTimeout(() => {
-
             sseController.stop();
             backend.clear();
             server.close();
 
             ctx.assertStrictEqual(clientData, EXPECTED_DATA);
             resolve();
-
         }, 320);
 
         const EXPECTED_DATA = [
@@ -72,6 +69,4 @@ module.exports = (ctx) => (
             ':ping',
             '',
         ].join('\n');
-
-    })
-);
+    });
